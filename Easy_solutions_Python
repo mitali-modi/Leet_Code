@@ -1,0 +1,347 @@
+https://leetcode.com/problems/two-sum/
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        length  = len(nums)
+        for i in range(length) :
+            for j in range(length)  :
+                if i == j :
+                    continue
+                else :
+                    if nums[i]+nums[j] == target :
+                        return [i,j]
+
+optimal :
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        for i in range(len(nums)) :
+            try :
+                j = nums.index(target-nums[i])
+            except Exception as e :
+                continue
+            if ( i != j ) :
+                return [i,j]
+            
+           
+		   
+
+https://leetcode.com/problems/reverse-integer/
+class Solution:
+    def reverse(self, x: int) -> int:
+        is_Negetive = False
+        if x < 0 :
+            x = -x
+            is_Negetive = True
+        rev = 0
+        while (x != 0) :
+            remainder = x % 10
+            x = x // 10
+            rev = rev * 10 + remainder
+        if rev > 2**31 - 1 :
+            return 0
+        else:
+            if is_Negetive :
+                rev =  -rev
+            return rev
+			
+			
+
+			
+https://leetcode.com/problems/roman-to-integer/
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        integer = 0
+        roman_symbol = { 'I' :  1, 'V' :  5, 'X' :  10, 'L' :  50, 'C' :  100, 'D' :  500, 'M' :  1000 }
+        sub_instance = { 'IV' :  2, 'IX' :  2, 'XL' :  20, 'XC' :  20, 'CD' :  200, 'CM' :  200 }
+        
+        for i in s :
+            if i in roman_symbol :
+                integer += roman_symbol[i]
+        for j in range(len(s)-1) :
+            if (s[j] + s[j+1]) in sub_instance :
+                integer -= sub_instance[s[j] + s[j+1]]
+        return integer
+ 
+
+
+
+https://leetcode.com/problems/longest-common-prefix/
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        prefix = ""
+        if len(strs) == 0 :
+            return prefix
+        min_length = len(strs[0])
+        for i in strs :
+            if len(i) < min_length :
+                min_length = len(i)
+        for ctr in range(min_length) :
+            temp = []
+            for word in strs :
+                temp.append(word[ctr])
+            if len(set(temp)) == 1 :
+                prefix = prefix+temp[0]
+                print(prefix)
+            else :
+                break
+        return prefix
+            
+
+https://leetcode.com/problems/valid-parentheses/
+class Solution:
+    def isValid(self, s: str) -> bool:
+        combination = [ ('(' , ')') , ('{' , '}') , ('[', ']') ]
+        open_brackets = ['(','{','[']
+        bucket=[]
+        for ele in s :
+            if ele in open_brackets :
+                bucket.append(ele)
+            elif bucket and (bucket[-1],ele) in combination :
+                bucket.pop()
+            else:
+                return False
+        if bucket:
+            return False
+        else :
+            return True
+                 
+				 
+https://leetcode.com/problems/merge-two-sorted-lists/
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        merged = ListNode()
+        curr   = merged
+        while l1 and l2 :
+            if l1.val < l2.val:
+                curr.next = l1
+                l1 = l1.next
+            else :
+                curr.next = l2
+                l2 = l2.next
+            curr = curr.next
+        if l1 is None:
+            curr.next = l2
+        elif l2 is None: 
+            curr.next = l1
+        return merged.next
+		
+		
+
+https://leetcode.com/problems/remove-duplicates-from-sorted-array
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        count = len(nums) - 1
+        while count > 0:
+            if nums[count] == nums[count-1]:
+                nums.pop(count)
+            count -= 1
+        return len(nums)
+		
+		
+		
+https://leetcode.com/problems/verifying-an-alien-dictionary/
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        seq = {char : index for index, char in enumerate(order)}
+        
+        for i in range(len(words)-1):
+            word1 = words[i]
+            word2 = words[i+1]
+            
+            for j in range(min(len(word1),len(word2))) :
+                if word1[j] != word2[j] :
+                    if seq[word1[j]] > seq[word2[j]] :
+                        return False
+                    break
+            else :
+                if len(word1) > len(word2) :
+                    return False
+        return True
+                
+                
+https://leetcode.com/problems/add-binary/
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        return '{0:b}'.format(int(a,2)+ int(b,2))        
+
+
+https://leetcode.com/problems/valid-palindrome-ii
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        
+        if not s:
+            return True
+        
+        start = 0
+        end = len(s) - 1
+        skip = 0
+        
+        def isValid (start, end, skip) :
+            if skip > 1 :
+                return False
+            if start >= end :
+                return True            
+            if s[start] == s[end] :
+                return isValid(start + 1, end - 1, skip)
+            else:
+                skip = skip + 1
+                return isValid(start + 1, end, skip) or isValid(start , end - 1, skip)
+        
+        return isValid(start, end, skip)
+
+
+https://leetcode.com/problems/first-bad-version/
+# The isBadVersion API is already defined for you.
+# @param version, an integer
+# @return an integer
+# def isBadVersion(version):
+
+class Solution:
+    def firstBadVersion(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        start = 1
+        end = n
+        while start < end:
+            mid = (start + end )//2
+            if(isBadVersion(mid)) :
+                end = mid
+            else:
+               start = mid + 1
+        return start
+               
+			   
+
+
+https://leetcode.com/problems/valid-palindrome
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        start = 0
+        end = len(s)-1
+        
+        while start <= end:
+            if not s[start].isalnum():
+                start += 1
+                continue
+            if not s[end].isalnum():
+                end -= 1
+                continue
+            if s[start].lower() == s[end].lower() :
+                start += 1
+                end -= 1
+            else :
+                return False
+        return True
+                
+        
+		
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        start = 0
+        end = len(s)-1
+        
+        def isValid(start,end):
+            if start >= end:
+                return True
+            if not s[start].isalnum():
+                start += 1
+                return isValid(start,end)
+            if not s[end].isalnum():
+                end -= 1
+                return isValid(start,end)
+            if s[start].lower() == s[end].lower() :
+                start += 1
+                end -= 1
+                return isValid(start,end)
+            else :
+                return False
+        return isValid(start,end)
+                
+        
+https://leetcode.com/problems/move-zeroes/
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        i = count = 0
+        while count < len(nums):
+            if nums[i] == 0 :
+                nums.pop(i)
+                nums.append(0)
+            else:
+                i += 1
+            count += 1
+                
+https://leetcode.com/problems/add-strings/
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        #return str(int(num1) + int(num2))
+        p1 = len(num1) - 1
+        p2 = len(num2) - 1
+        
+        result = []
+        
+        value = carry = 0
+        
+        while p1 >= 0 or p2 >= 0 :
+            x = num1[p1] if p1 >= 0 else 0 
+            y = num2[p2] if p2 >= 0 else 0
+            value = (int(x) + int(y) + carry) % 10
+            carry = (int(x) + int(y) + carry) // 10
+            result.append(value)
+            p1 -= 1
+            p2 -= 1
+        
+        if carry :
+            result.append(carry)
+        
+        return "".join(str(x) for x in result[::-1])
+
+
+https://leetcode.com/problems/intersection-of-two-arrays/
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        return set(nums1) & set(nums2)
+		
+		
+https://leetcode.com/problems/monotonic-array/
+class Solution:
+    def isMonotonic(self, A: List[int]) -> bool:
+        if A == sorted(A) or  A == sorted(A,reverse=True) :
+            return True
+        return False
+     
+https://leetcode.com/problems/goat-latin
+class Solution:
+    def toGoatLatin(self, S: str) -> str:
+        v = 'aeiouAEIOU'
+        j = 1
+        S = S.split(" ")
+        R = []
+        for i in S :
+            if i[0].lower() not in v:
+                i = i[1:]+i[0]
+
+            i = i + 'ma' + ('a' * j) 
+            j = j+1
+            R.append(i)
+        
+        return ' '.join(R)
+
+
+https://leetcode.com/problems/intersection-of-two-arrays-ii/
+from collections import Counter
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        res = []
+        C1 , C2 = Counter(nums1) , Counter(nums2) 
+        for num in C1 & C2 :
+            res.append([num] * min(C1[num],C2[num]))
+        return sum(res, [])
